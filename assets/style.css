@@ -5,6 +5,7 @@ header{
     padding-right: 2%;
     margin: 1.5%;
     font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
 }
 
 .card{
@@ -18,12 +19,12 @@ header{
     font-size: 24px;
 }
 
-.card-header{
+#card-header{
     margin-bottom: 0%;
     font-family: 'Oswald', sans-serif;
 }
 
-.card-description{
+#card-description{
     display: flex;
     text-align: center;
 }
@@ -38,4 +39,8 @@ button{
 
 button:hover{
     background-color: rgb(116, 76, 116);
+}
+
+#answer-choice{
+    display:none;
 }
