@@ -42,5 +42,11 @@ button:hover{
 }
 
 #answer-choice{
+    margin: 1%;
+    padding: 1%;
+    width: 70%;
+}
+
+.hide{
     display:none;
 }
