@@ -1,0 +1,27 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 2%;
+    margin: 1.5%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.card{
+    justify-content: center;
+    align-items: center;
+}
+
+.card-header{
+    font-family: 'Oswald', sans-serif;
+}
+
+button{
+    background-color: purple;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+button:hover{
+    background-color: rgb(116, 76, 116);
+}
