@@ -39,6 +39,7 @@ button{
 
 button:hover{
     background-color: rgb(116, 76, 116);
+    cursor: pointer;
 }
 
 #answer-choice{
