@@ -73,11 +73,12 @@ var timeEl = document.querySelector("#timer");
 var cardHeaderEl = document.getElementById("card-header");
 var cardDescriptEl=document.getElementById("card-description");
 var startBtn = document.getElementById("startButton");
+var footer = document.getElementById("footer");
 var timerInterval;
 var highScores = JSON.parse(localStorage.getItem("highScores")) || []; // fill array with local storage or empty array
 console.log(highScores);
 
-// Call functions
+// Call beginning functions
 beginningCard();
 startBtn.addEventListener("click", startQuiz);
 
@@ -102,12 +103,13 @@ function showQuestion(){
     cardHeaderEl.innerHTML = questions[i].question;
     cardDescriptEl.innerHTML= ''
 
+    // create a container to hold all the buttons
     var buttonBox = document.getElementById("button-box"); // will link upcoming commands to parent container
     buttonBox.innerHTML = "";
     questions[i].choices.forEach(function(choice){ // call everything here choice instead of choices[i]
         // create a button for each answer choice and assign class and value
         var choiceButton = document.createElement("button");
-        choiceButton.className="answer-choice";
+        choiceButton.className="button-choice";
         choiceButton.setAttribute("value", choice);
         // fill each button with answer choice and append to parent container
         choiceButton.textContent = choice;
@@ -117,37 +119,93 @@ function showQuestion(){
     })
 }
 function evaluateAnswer(){
+    // Evaluate whether answer choice is correct or incorrect
     if(this.value !== questions[i].answer){ // "this" means the one we're on
-        console.log("wrong");
-        // possible function called wrong
+        incorrect();
     } else {
-        console.log("correct");
-        score++;
-        // possible function called correct
+        correct();
     }
     i++;
-    if(i===questions.length){
+    if(i===questions.length || secondsLeft === 0){
         endGame();
     } else {
         showQuestion(); // only runs if we still have questions
     }
 }
 
+// If answer choice is incorrect, display a footer and subtract 15 seconds from the time
+function incorrect(){
+    footer.innerHTML = "Incorrect!"
+    document.querySelector("footer").setAttribute("style", "display:flex")
+    if (secondsLeft >= 15){
+        secondsLeft = secondsLeft-15;
+    }else{
+        secondsLeft = 0;
+        timeEl.textContent = secondsLeft;
+        clearInterval(timerInterval);
+        endGame();
+    }
+}
+
+// If answer choice is correct, display a footer and add 1 point to the score
+function correct(){
+    footer.innerHTML = "Correct!"
+    document.querySelector("footer").setAttribute("style", "display:flex")
+    score++
+}
+
+// If time reaches 0 or we run out of time, end the game
 function endGame(){
-    // grab secondsLeft
+    // stop timer and find final score
     clearInterval(timerInterval);
-    var initials = "TB"; 
+    var finalScore = score * secondsLeft;
+
+    // Display final score and hide choice buttons and footer
+    cardHeaderEl.innerHTML = "All done!";
+    cardDescriptEl.innerHTML= "Your final score is " + finalScore;
+    document.getElementById("button-box").setAttribute("style", "display:none");
+    document.querySelector("footer").setAttribute("style", "display:none")
+
+    // collect initials
+    var initials = collectInitials();
+
+    // create object storing initials and score
     var scoreObj = {
         initials: initials,
-        finalScore: score * secondsLeft
+        finalScore: finalScore
     }
+    // Store initials and high scores into the high scores object and sort high to low
     highScores.push(scoreObj);
-    localStorage.setItem("highScores", JSON.stringify(highScores));
     highScores.sort(function(a,b){
         return b.finalScore - a.finalScore; // this will sort high to low (descending)
     })
-    console.log(secondsLeft);
-    console.log(scoreObj);
+    // Store data into local storage
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+}
+
+function collectInitials(){
+    // select and create elements
+    var formEl = document.getElementById("form");
+    var formInitials = document.createElement("input");
+    var submit = document.createElement("button");
+    
+    // prompt user to enter initials
+    formEl.innerHTML = "Enter your initials";
+    
+    // append elements to form and set attributes
+    formEl.appendChild(formInitials);
+    formEl.appendChild(submit);
+    formInitials.setAttribute("type", "text");
+    formInitials.setAttribute("value", "");
+    submit.innerHTML = "Submit"
+
+    // show form
+    formEl.setAttribute("style", "display:flex");
+    
+    // return user input
+    var initials = formInitials.value; 
+    console.log(initials);
+    return initials;
 }
 
 // Create timer
