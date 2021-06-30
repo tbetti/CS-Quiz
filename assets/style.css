@@ -52,6 +52,11 @@ button:hover{
     width: 70%;
 }
 
+footer{
+    color: gray;
+    border-top: 2px solid gray;
+}
+
 .hide{
     display:none;
 }
