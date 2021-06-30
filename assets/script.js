@@ -73,7 +73,6 @@ var timeEl = document.querySelector("#timer");
 var cardHeaderEl = document.getElementById("card-header");
 var cardDescriptEl=document.getElementById("card-description");
 var startBtn = document.getElementById("startButton");
-var answerBtn = document.querySelectorAll("#answer-choice")
 var timerInterval;
 var highScores = JSON.parse(localStorage.getItem("highScores")) || []; // fill array with local storage or empty array
 console.log(highScores);
@@ -92,30 +91,9 @@ function beginningCard(){
 // Run the quiz when start button pushed
 function startQuiz(){
     startBtn.setAttribute("style", "display:none");
-    // set the timer
+    // set the timer and show the question
     setTimer();
-    showQuestion();
-    // while (secondsLeft > 0 || i > questionBank.length){
-    //     //Display question
-    //     userAnswer = showQuestion(i); // does this actually run the function?
-    //     // Check if answer is correct
-    //     if (userAnswer !== answer[i]){
-    //         secondsLeft = secondsLeft - 15;
-    //         // add a footer saying "Wrong!"
-    //         var footer = document.createElement("footer");
-    //         footer.createTextNode("Wrong!");
-    //     } else{
-    //         // add a footer saying "Correct!"
-    //         var footer = document.createElement('footer');
-    //         footer.createTextNode("Correct!");
-    //         i++
-    //     }
-        
-    //     // Reset
-    //     footer.remove();
-    // }
-    // Add score and high score cards
-    // link high score cards to header option    
+    showQuestion();  
 }
 
 // Create Question Cards
@@ -123,40 +101,23 @@ function showQuestion(){
     // Display question
     cardHeaderEl.innerHTML = questions[i].question;
     cardDescriptEl.innerHTML= ''
-    // var answerBankLocal = answerBankObject[i]; // read in array of answers that correspond with question
 
-    // // Display answer choices
-    // for(j=0; j < answerBtn.length; j++){
-    //    answerBtn[j].classList.remove("hide");
-    //    answerBtn[j].innerHTML = answerBankLocal[j]; 
-    //    console.log(answerBankLocal[j]);
-    //    answerBtn[j].setAttribute("value",answerBankLocal[j]);
-    //    answerBtn[j].onclick = 
-    // }   
-    var buttonBox = document.getElementById("button-box");
+    var buttonBox = document.getElementById("button-box"); // will link upcoming commands to parent container
     buttonBox.innerHTML = "";
     questions[i].choices.forEach(function(choice){ // call everything here choice instead of choices[i]
+        // create a button for each answer choice and assign class and value
         var choiceButton = document.createElement("button");
-        choiceButton.textContent = choice;
+        choiceButton.className="answer-choice";
         choiceButton.setAttribute("value", choice);
-        choiceButton.onclick=evaluateAnswer; // calls evaluationAnswer each time clicked (this means one we clicked on)
-        buttonBox.appendChild(choiceButton); // "this" means the one we're on
+        // fill each button with answer choice and append to parent container
+        choiceButton.textContent = choice;
+        buttonBox.appendChild(choiceButton); 
+        // calls evaluationAnswer function each time clicked ("this" means one we clicked on)
+        choiceButton.onclick=evaluateAnswer; 
     })
-
-    // Get answer from user
-    // var answerChoice;
-    // document.querySelector(".card").addEventListener("click", function(event){
-    //     var element = event.target;
-    //     if (element.matches("#answer-choice")){
-    //         answerChoice = element.dataset.id; // select data-id???
-    //     }
-    // });
-
-    // // Return user answer as array at [i]
-    // return answerChoice; // maybe this can just be a value that changes each time instead of an array??
 }
 function evaluateAnswer(){
-    if(this.value !== questions[i].answer){
+    if(this.value !== questions[i].answer){ // "this" means the one we're on
         console.log("wrong");
         // possible function called wrong
     } else {

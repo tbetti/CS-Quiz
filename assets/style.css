@@ -14,19 +14,23 @@ a:hover{
     cursor: pointer;
 }
 
-.card{
+.center-items{
     display: flex;
     flex-direction: column;
-    width: 75%;
     margin-left: auto;
     margin-right: auto;
     align-items: center;
+}
+
+.card{
+    width: 75%;
     font-size: 24px;
 }
 
 #card-header{
     margin-bottom: 0%;
     font-family: 'Oswald', sans-serif;
+    text-align: center;
 }
 
 #card-description{
@@ -46,7 +50,11 @@ button:hover{
     cursor: pointer;
 }
 
-#answer-choice{
+#button-box{
+    width: 70%;
+}
+
+.answer-choice{
     margin: 1%;
     padding: 1%;
     width: 70%;
