@@ -8,60 +8,60 @@ var questions = [
                 "d) The ability to think like a computer"],
         answer: "c) Being able to break down a problem into smaller steps"
     },
-    // {
-    //     question: "Which of the following is an example of an HTML tag?",
-    //     choices: ["a) class = \"class-name\"",
-    //             "b) id = \"id-name\"",
-    //             "c) <style>", // correct
-    //             "d) var variableName"],
-    //     answer: "c) <style>"
-    // },
-    // {
-    //     question: "True or False: Classes and IDs are examples of HTML attributes",
-    //     choices: ["TRUE", //correct
-    //             "FALSE"],
-    //     answer: "TRUE"
-    // },
-    // {
-    //     question: "What does CSS stand for?",
-    //     choices: ["a) Cascading Stylesheet", //correct
-    //                 "b) Computer Science Stylesheet",
-    //                 "c) Computer Stylesheet",
-    //                 "d) Computer Science System"],
-    //     answer: "a) Cascading Stylesheet"
-    // },
-    // {
-    //     question: "What is the proper way to identify a class using CSS?",
-    //     choices: ["a) #class-name",
-    //             "b) .class-name", // correct
-    //             "c) class-name",
-    //             "d) \"class name\""],
-    //     answer: "b) .class-name",
-    // },
-    // {
-    //     question: "How do you call a variable in CSS?",
-    //     choices: ["a) var varName",
-    //             "b) let varName",
-    //             "c) var --varName",
-    //             "d) var(--varName)"], //correct
-    //     answer: "d) var(--varName)"
-    // },
-    // {
-    //     question: "What is the primary purpose of using JavaScript?",
-    //     choices: ["a) To add style to a webpage",
-    //             "b) To add content like text and pictures to a webpage",
-    //             "c) To make the webpage look more professional",
-    //             "d) To make a webpage dynamic and user-friendly"], // correct
-    //     answer:  "d) To make a webpage dynamic and user-friendly"
-    // },
-    // {
-    //     question: "What is the difference between jQuery and vanilla JavaScript?",
-    //     choices: ["a) jQuery generally uses fewer lines of code than vanilla JavaScript", // correct
-    //             "b) jQuery can easily select certain elements on a webpage's DOM",
-    //             "c) jQuery allows the user to interact with a dynamic webpage",
-    //             "d) jQuery and vanilla JavaScript are the same"],
-    //     answer: "a) jQuery generally uses fewer lines of code than vanilla JavaScript"
-    // }
+    {
+        question: "Which of the following is an example of an HTML tag?",
+        choices: ["a) class = \"class-name\"",
+                "b) id = \"id-name\"",
+                "c) <style>", // correct
+                "d) var variableName"],
+        answer: "c) <style>"
+    },
+    {
+        question: "True or False: Classes and IDs are examples of HTML attributes",
+        choices: ["TRUE", //correct
+                "FALSE"],
+        answer: "TRUE"
+    },
+    {
+        question: "What does CSS stand for?",
+        choices: ["a) Cascading Stylesheet", //correct
+                    "b) Computer Science Stylesheet",
+                    "c) Computer Stylesheet",
+                    "d) Computer Science System"],
+        answer: "a) Cascading Stylesheet"
+    },
+    {
+        question: "What is the proper way to identify a class using CSS?",
+        choices: ["a) #class-name",
+                "b) .class-name", // correct
+                "c) class-name",
+                "d) \"class name\""],
+        answer: "b) .class-name",
+    },
+    {
+        question: "How do you call a variable in CSS?",
+        choices: ["a) var varName",
+                "b) let varName",
+                "c) var --varName",
+                "d) var(--varName)"], //correct
+        answer: "d) var(--varName)"
+    },
+    {
+        question: "What is the primary purpose of using JavaScript?",
+        choices: ["a) To add style to a webpage",
+                "b) To add content like text and pictures to a webpage",
+                "c) To make the webpage look more professional",
+                "d) To make a webpage dynamic and user-friendly"], // correct
+        answer:  "d) To make a webpage dynamic and user-friendly"
+    },
+    {
+        question: "What is the difference between jQuery and vanilla JavaScript?",
+        choices: ["a) jQuery generally uses fewer lines of code than vanilla JavaScript", // correct
+                "b) jQuery can easily select certain elements on a webpage's DOM",
+                "c) jQuery allows the user to interact with a dynamic webpage",
+                "d) jQuery and vanilla JavaScript are the same"],
+        answer: "a) jQuery generally uses fewer lines of code than vanilla JavaScript"
+    }
 ]
 
 // Create global variables
@@ -76,6 +76,7 @@ var startBtn = document.getElementById("startButton");
 var footer = document.getElementById("footer");
 var formEl = document.getElementById("form");
 var buttonBox = document.getElementById("button-box");
+var viewHSc = document.getElementById("view-high-scores");
 var timerInterval;
 var highScores = JSON.parse(localStorage.getItem("highScores")) || []; // fill array with local storage or empty array
 console.log(highScores);
@@ -88,6 +89,10 @@ var scoreObj = {
 // Call beginning functions
 beginningCard();
 startBtn.addEventListener("click", startQuiz);
+viewHSc.addEventListener("click",function(){
+    clearInterval(timerInterval);
+    highScorePage();
+});
 
 // Create first card
 function beginningCard(){
@@ -174,7 +179,7 @@ function endGame(){
     document.querySelector("footer").setAttribute("style", "display:none")
 
     // collect initials
-    var initials = collectInitials();
+    collectInitials();
 
     // create object storing initials and score
     scoreObj.finalScore = finalScore;
@@ -224,30 +229,46 @@ function storeInitials(){
     // Store data into local storage
     localStorage.setItem("highScores", JSON.stringify(highScores));
 }
-// Create High Score
+
+// Create High Score Page
 function highScorePage(){
     cardHeaderEl.innerHTML = "High Scores";
     formEl.innerHTML = "";
     cardDescriptEl.innerHTML= "";
+    buttonBox.innerHTML="";
+    startBtn.setAttribute("style", "display: none");
+    footer.setAttribute("style", "display:none");
+    formEl.setAttribute("style", "display:flex");
 
     // print top 10 high scores
     var orderedList = document.createElement("ol") 
     buttonBox.appendChild(orderedList);
-    for(i=0; i < 10; i ++){
+    for(i=0; i < highScores.length; i ++){
         console.log(highScores[i].finalScore);
         var scoreEntry = document.createElement("li");
         scoreEntry.className="score-entry";
         // fill each list item with initials and score and append to parent list
-        scoreEntry.textContent = "User: " + highScores[i].initials + "   Score: " + highScores[i].finalScore;
+        scoreEntry.textContent = "User: " + highScores[i].initials + " Score: " + highScores[i].finalScore;
         orderedList.appendChild(scoreEntry); 
     }
     // create restart and clear buttons
     var restartBtn = document.createElement("button");
     var clearBtn = document.createElement("button");
     restartBtn.innerHTML = "Take the Quiz Again";
-    clearBtn.innerHTML = "Clear High Scores"
+    clearBtn.innerHTML = "Clear High Scores";
     formEl.appendChild(restartBtn);
     formEl.appendChild(clearBtn);
+
+    restartBtn.onclick=function(event){
+        //event.preventDefault();
+        beginningCard();
+    } 
+    clearBtn.onclick=function(event){
+        event.preventDefault();
+        localStorage.clear();
+        highScores = [];
+        buttonBox.innerHTML = "";
+    }
 }
 
 // Create timer
