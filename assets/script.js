@@ -79,7 +79,6 @@ var buttonBox = document.getElementById("button-box");
 var viewHSc = document.getElementById("view-high-scores");
 var timerInterval;
 var highScores = JSON.parse(localStorage.getItem("highScores")) || []; // fill array with local storage or empty array
-console.log(highScores);
 
 var scoreObj = {
     initials: '',
@@ -161,9 +160,9 @@ function incorrect(){
 
 // If answer choice is correct, display a footer and add 1 point to the score
 function correct(){
-    footer.innerHTML = "Correct!"
-    document.querySelector("footer").setAttribute("style", "display:flex")
-    score++
+    footer.innerHTML = "Correct!";
+    document.querySelector("footer").setAttribute("style", "display:flex");
+    score++;
 }
 
 // If time reaches 0 or we run out of time, end the game
@@ -200,7 +199,7 @@ function collectInitials(){
     formEl.appendChild(submit);
     formInitials.setAttribute("type", "text");
     formInitials.setAttribute("value", "");
-    submit.innerHTML = "Submit"
+    submit.innerHTML = "Submit";
 
     // show form
     formEl.setAttribute("style", "display:flex");
@@ -209,19 +208,16 @@ function collectInitials(){
     submit.onclick=function(event){
         event.preventDefault();
         initials = formInitials.value; 
-        console.log(initials);
         scoreObj.initials = initials;
         // Store initials and high scores into the high scores object and sort high to low 
         storeInitials(); 
         highScorePage();
     } 
-    console.log(initials);
     return initials;
 }
 
 // Store initials in the scoreObj
 function storeInitials(){
-    console.log(scoreObj);
     highScores.push(scoreObj);
     highScores.sort(function(a,b){
         return b.finalScore - a.finalScore; // this will sort high to low (descending)
@@ -241,10 +237,9 @@ function highScorePage(){
     formEl.setAttribute("style", "display:flex");
 
     // print top 10 high scores
-    var orderedList = document.createElement("ol") 
+    var orderedList = document.createElement("ol"); 
     buttonBox.appendChild(orderedList);
     for(i=0; i < highScores.length; i ++){
-        console.log(highScores[i].finalScore);
         var scoreEntry = document.createElement("li");
         scoreEntry.className="score-entry";
         // fill each list item with initials and score and append to parent list

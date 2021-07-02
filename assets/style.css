@@ -52,6 +52,7 @@ button{
     background-color: purple;
     color: white;
     padding: 1%;
+    margin: 2%;
     font-size: 20px;
 }
 
@@ -93,4 +94,30 @@ form{
 input{
     padding: 0.5%;
     font-size: 24px;
+}
+
+/* Style for different screen sizes */
+@media screen and (max-width: 540px){
+    #button-box{
+        width: 90%;
+    }
+    .button-choice{
+        width: 85%;
+    }
+    .card{
+        width: 90%;
+    }
+    #card-header{
+        font-size: 32px;
+    }
+    button{
+        font-size: 18px;
+        margin: 3%;
+    }
+    form{
+        flex-direction: column;
+    }
+    input{
+        margin: 3%;
+    }
 }
